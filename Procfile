@@ -1,1 +1,1 @@
-worker: python hello.py
+worker: python twitter_bot.py

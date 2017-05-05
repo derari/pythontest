@@ -4,6 +4,8 @@
 from twython import Twython
 # pretty print variables, show them with newlines, so that they are readable
 from pprint import pprint
+# http://apscheduler.readthedocs.io/en/3.3.1/
+from apscheduler.schedulers.blocking import BlockingScheduler
 
 # import all the variables defined in credentials.py
 from credentials import *
@@ -23,12 +25,16 @@ print 'tweet count:', info['statuses_count']
 print 'favourite count:', info['favourites_count']
 print 'friends count:', info['friends_count']
 
-# from tweet_text.py
-text = tweet_text()
+sched = BlockingScheduler()
 
-# Send the tweet!
-tweet = account.update_status(status=text)
+@sched.scheduled_job('interval', minutes=3)
+def regular_tweet():
+  # from tweet_text.py
+  text = tweet_text()
+  # Send the tweet!
+  tweet = account.update_status(status=text)
+  # Print some info on the sent tweet
+  # pprint(tweet)
+  print 'https://twitter.com/statuses/{id}'.format(id=tweet['id'])
 
-# Print some info on the sent tweet
-# pprint(tweet)
-print 'https://twitter.com/statuses/{id}'.format(id=tweet['id'])
+sched.start()
