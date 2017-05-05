@@ -23,6 +23,7 @@ print 'tweet count:', info['statuses_count']
 print 'favourite count:', info['favourites_count']
 print 'friends count:', info['friends_count']
 
+# from tweet_text.py
 text = tweet_text()
 
 # Send the tweet!
