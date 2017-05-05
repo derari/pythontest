@@ -27,7 +27,7 @@ print 'friends count:', info['friends_count']
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', minutes=3)
+@sched.scheduled_job('interval', minutes=10)
 def regular_tweet():
   # from tweet_text.py
   text = tweet_text()
