@@ -64,7 +64,7 @@ def regular_tweet():
     replied = False
     # for each mention
     for tweet in account.get_mentions_timeline():
-        # The API returns times int he format "created_at": "Mon Sep 03 13:24:14 +0000 2012"
+        # The API returns times in the format "created_at": "Mon Sep 03 13:24:14 +0000 2012"
         # Parse this string into a Python datetime object
         # https://dev.twitter.com/rest/reference/get/statuses/mentions_timeline
         time = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
