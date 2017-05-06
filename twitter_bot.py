@@ -9,16 +9,16 @@ from __future__ import print_function
 # basic operating system interactions
 import os
 import sys
-# handle date and time
-from datetime import datetime
 # pretty print variables, show them with newlines, so that they are readable
 from pprint import pprint
 # import the code that connects to Twitter
 from twython import Twython
 # http://apscheduler.readthedocs.io/en/3.3.1/
 from apscheduler.schedulers.blocking import BlockingScheduler
-# import the 'tweet_text' function from tweet_text.py
+# import all functions from tweet_text.py
 from tweet_text import *
+# import all functions from helper.py
+from helper import *
 
 # Try to import the variables defined in credentials.py
 # If that does not exist (e.g. on Heroku), fall back to environment variables
@@ -64,13 +64,8 @@ def regular_tweet():
     replied = False
     # for each mention
     for tweet in account.get_mentions_timeline():
-        # The API returns times in the format "created_at": "Mon Sep 03 13:24:14 +0000 2012"
-        # Parse this string into a Python datetime object
-        # https://dev.twitter.com/rest/reference/get/statuses/mentions_timeline
-        time = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-        delta = datetime.utcnow() - time
-        # if it was less than 10 minutes ago
-        if delta.days == 0 and delta.seconds < interval_minutes * 60:
+        # if the tweet was sent after the last time we checked mentions
+        if tweet_minutes_ago(tweet) < interval_minutes:
             # get reply from tweet_text.py
             reply_text = reply(tweet)
             if reply_text is not None:
