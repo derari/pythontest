@@ -1,7 +1,7 @@
 # https://docs.python.org/2/library/unittest.html
 import unittest
 
-from tweet_text import tweet_text
+from tweet_text import idle_text
 
 # The basic building blocks of unit testing are test cases
 # single scenarios that must be set up and checked for correctness.
@@ -11,10 +11,10 @@ from tweet_text import tweet_text
 class TestTweetText(unittest.TestCase):
     # This is called immediately before calling each test method
     def setUp(self):
-        self.text = tweet_text()
+        self.text = idle_text()
 
     def test_start(self):
-        # In order to test something, we use one of the assert*() 
+        # In order to test something, we use one of the assert*()
         # methods provided by the TestCase base class
         # https://docs.python.org/2/library/unittest.html#unittest.TestCase.assertTrue
         self.assertTrue(self.text.startswith('It is'))
