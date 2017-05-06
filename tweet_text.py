@@ -5,7 +5,7 @@ def reply(tweet):
 	message = tweet['text']
 	user = tweet['user']['screen_name']
 	if "hi" in message:
-		return "@" + user + " hi!"
+		return "Hi @" + user + "! " + time.strftime("It is %H:%M:%S on a %A (%d-%m-%Y).")
 	else:
 		return None
 
