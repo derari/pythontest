@@ -62,10 +62,12 @@ interval_minutes = 10
 @scheduler.scheduled_job('interval', minutes=interval_minutes)
 def regular_tweet():
     replied = False
-    now = datetime.utcnow()
+    # for each mention
     for tweet in account.get_mentions_timeline():
-        # for each mention
-        time = datetime.strptime(tweet['created_at'],'%a %b %d %H:%M:%S +0000 %Y')
+        # The API returns times int he format "created_at": "Mon Sep 03 13:24:14 +0000 2012"
+        # Parse this string into a Python datetime object
+        # https://dev.twitter.com/rest/reference/get/statuses/mentions_timeline
+        time = datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
         delta = datetime.utcnow() - time
         # if it was less than 10 minutes ago
         if delta.days == 0 and delta.seconds < interval_minutes * 60:
@@ -74,8 +76,8 @@ def regular_tweet():
             if reply_text is not None:
                 replied = True
                 print('Replying to https://twitter.com/statuses/{id}'.format(id=tweet['id']))
-                tweet = account.update_status(status=reply_text)
-                print('https://twitter.com/statuses/{id}'.format(id=tweet['id']))
+                sent_tweet = account.update_status(status=reply_text, in_reply_to_status_id=tweet['id'])
+                print('https://twitter.com/statuses/{id}'.format(id=sent_tweet['id']))
     if not replied:
         # from tweet_text.py
         text = idle_text()
