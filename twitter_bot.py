@@ -13,6 +13,7 @@ import sys
 from pprint import pprint
 # import the code that connects to Twitter
 from twython import Twython
+# Allow running functions periodically
 # http://apscheduler.readthedocs.io/en/3.3.1/
 from apscheduler.schedulers.blocking import BlockingScheduler
 # import all functions from tweet_text.py
