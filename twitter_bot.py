@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# pylint: disable=C0103
+
+"""Twitter Bot. Listens for mentions and replies to them."""
 
 #
 # IMPORTS
@@ -9,8 +12,6 @@ from __future__ import print_function
 # basic operating system interactions
 import os
 import sys
-# pretty print variables, show them with newlines, so that they are readable
-from pprint import pprint
 # import the code that connects to Twitter
 from twython import Twython
 # Allow running functions periodically
@@ -51,7 +52,6 @@ account = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 # https://dev.twitter.com/rest/reference/get/account/verify_credentials
 info = account.verify_credentials(include_entities=False, skip_status=True, include_email=False)
 
-# pprint(info)
 print('user:', info['screen_name'])
 print('tweet count:', info['statuses_count'])
 print('favourite count:', info['favourites_count'])
@@ -62,6 +62,7 @@ interval_minutes = 10
 
 @scheduler.scheduled_job('interval', minutes=interval_minutes)
 def regular_tweet():
+    """check for mentions and answer, otherwise tweet idle tweet"""
     replied = False
     # for each mention
     for tweet in account.get_mentions_timeline():
@@ -80,7 +81,6 @@ def regular_tweet():
         # Send the tweet!
         tweet = account.update_status(status=text)
         # Print some info on the sent tweet
-        # pprint(tweet)
         print('https://twitter.com/statuses/{id}'.format(id=tweet['id']))
 
 
