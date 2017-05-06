@@ -1,16 +1,43 @@
 #!/usr/bin/env python
 
-# import the code that connects to Twitter
-from twython import Twython
+#
+# IMPORTS
+#
+
+# basic operating system interactions
+import os
+import sys
 # pretty print variables, show them with newlines, so that they are readable
 from pprint import pprint
+# import the code that connects to Twitter
+from twython import Twython
 # http://apscheduler.readthedocs.io/en/3.3.1/
 from apscheduler.schedulers.blocking import BlockingScheduler
-
-# import all the variables defined in credentials.py
-from credentials import *
 # import the 'tweet_text' function from tweet_text.py
 from tweet_text import tweet_text
+
+# Try to import the variables defined in credentials.py
+# If that does not exist (e.g. on Heroku), fall back to environment variables
+try:
+    from credentials import APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET
+except ImportError as error:
+    print 'Info: {e}'.format(e=error)
+    print 'Info: Cannot load credentials.py. Will use environment variables.'
+    try:
+        APP_KEY = os.environ['APP_KEY']
+        APP_SECRET = os.environ['APP_SECRET']
+        OAUTH_TOKEN = os.environ['OAUTH_TOKEN']
+        OAUTH_TOKEN_SECRET = os.environ['OAUTH_TOKEN_SECRET']
+    except KeyError as error:
+        print 'Error: {e} not found in environment variables'.format(e=error)
+        print 'Error: Could not retrieve credentials from either credentials.py or environment variables. Make sure either is set.'
+        # can't do anything without credentials, so quit
+        sys.exit()
+
+
+#
+# BOT CODE
+#
 
 # Login to Twitter
 account = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
@@ -25,9 +52,10 @@ print 'tweet count:', info['statuses_count']
 print 'favourite count:', info['favourites_count']
 print 'friends count:', info['friends_count']
 
-sched = BlockingScheduler()
+scheduler = BlockingScheduler()
+interval_minutes = 10
 
-@sched.scheduled_job('interval', minutes=10)
+@scheduler.scheduled_job('interval', minutes=interval_minutes)
 def regular_tweet():
   # from tweet_text.py
   text = tweet_text()
@@ -37,4 +65,10 @@ def regular_tweet():
   # pprint(tweet)
   print 'https://twitter.com/statuses/{id}'.format(id=tweet['id'])
 
-sched.start()
+try:
+    print 'Info: {name} running.'.format(name=sys.argv[0])
+    print 'Info: Will tweet every {min} minutes. Stop with Ctrl+c'.format(min=interval_minutes)
+    scheduler.start()
+# a KeyboardInterrupt exception is generated when the user presses Ctrl+c
+except KeyboardInterrupt:
+    print '\nInfo: Shutting down. Bye!'
