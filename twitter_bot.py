@@ -13,10 +13,7 @@ from __future__ import print_function
 import os
 import sys
 # import the code that connects to Twitter
-from twython import Twython
-# Allow running functions periodically
-# http://apscheduler.readthedocs.io/en/3.3.1/
-from apscheduler.schedulers.blocking import BlockingScheduler
+from twython import Twython, TwythonError
 # import all functions from tweet_text.py
 from tweet_text import *
 # import all functions from helper.py
@@ -45,36 +42,43 @@ except ImportError as error:
 # BOT CODE
 #
 
-# Login to Twitter
-account = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
+INTERVAL_MINUTES = 10
 
-# Check the supplied credentials, get some general info on the account
-# https://dev.twitter.com/rest/reference/get/account/verify_credentials
-info = account.verify_credentials(include_entities=False, skip_status=True, include_email=False)
+def setup():
+    # Login to Twitter
+    account = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 
-print('user:', info['screen_name'])
-print('tweet count:', info['statuses_count'])
-print('favourite count:', info['favourites_count'])
-print('friends count:', info['friends_count'])
+    # Check the supplied credentials, get some general info on the account
+    # https://dev.twitter.com/rest/reference/get/account/verify_credentials
+    info = account.verify_credentials(include_entities=False, skip_status=True, include_email=False)
+    print('user:', info['screen_name'])
+    print('tweet count:', info['statuses_count'])
+    print('favourite count:', info['favourites_count'])
+    print('friends count:', info['friends_count'])
 
-scheduler = BlockingScheduler()
-interval_minutes = 10
+    rate_limit_remaining = account.get_lastfunction_header('x-rate-limit-remaining')
+    print('rate limit remaining', rate_limit_remaining)
+    return account
 
-@scheduler.scheduled_job('interval', minutes=interval_minutes)
-def regular_tweet():
+def tweet(account):
     """check for mentions and answer, otherwise tweet idle tweet"""
     replied = False
     # for each mention
     for tweet in account.get_mentions_timeline():
         # if the tweet was sent after the last time we checked mentions
-        if tweet_minutes_ago(tweet) < interval_minutes:
+        if tweet_minutes_ago(tweet) < INTERVAL_MINUTES:
             # get reply from tweet_text.py
             reply_text = reply(tweet)
             if reply_text is not None:
                 replied = True
-                print('Replying to https://twitter.com/statuses/{id}'.format(id=tweet['id']))
-                sent_tweet = account.update_status(status=reply_text, in_reply_to_status_id=tweet['id'])
-                print('https://twitter.com/statuses/{id}'.format(id=sent_tweet['id']))
+                try:
+                    print('Replying to https://twitter.com/statuses/{id}'.format(id=tweet['id']))
+                    sent_tweet = account.update_status(status=reply_text, in_reply_to_status_id=tweet['id'])
+                    print('https://twitter.com/statuses/{id}'.format(id=sent_tweet['id']))
+                    rate_limit_remaining = account.get_lastfunction_header('x-rate-limit-remaining')
+                    print('rate limit remaining', rate_limit_remaining)
+                except TwythonError as e:
+                    print(e)
     if not replied:
         # from tweet_text.py
         text = idle_text()
@@ -82,12 +86,9 @@ def regular_tweet():
         tweet = account.update_status(status=text)
         # Print some info on the sent tweet
         print('https://twitter.com/statuses/{id}'.format(id=tweet['id']))
+        rate_limit_remaining = account.get_lastfunction_header('x-rate-limit-remaining')
+        print('rate limit remaining', rate_limit_remaining)
 
-
-try:
-    print('Info: {name} running.'.format(name=sys.argv[0]))
-    print('Info: Will tweet every {min} minutes and reply to tweets. Stop with Ctrl+c'.format(min=interval_minutes))
-    scheduler.start()
-# a KeyboardInterrupt exception is generated when the user presses Ctrl+c
-except KeyboardInterrupt:
-    print('\nInfo: Shutting down. Bye!')
+if __name__ == "__main__":
+    account = setup()
+    tweet(account)
