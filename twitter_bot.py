@@ -61,7 +61,7 @@ def tweet(account):
     """check for mentions and answer, otherwise tweet idle tweet"""
     replied = False
     mentions = account.get_mentions_timeline()
-    rate_limit_remaining = account.get_lastfunction_header('X-Rate-Limit-Remaining')
+    rate_limit_remaining = account.get_lastfunction_header('x-rate-limit-remaining')
     print('rate limit remaining', rate_limit_remaining)
     # for each mention
     for tweet in mentions:
