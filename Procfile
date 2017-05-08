@@ -1,1 +1,1 @@
-worker: python twitter_bot.py
+clock: python clock.py
