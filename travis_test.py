@@ -5,6 +5,7 @@ from tweet_text import idle_text, reply
 from travis.submit_issue import submit_issue
 from sys import exit
 import traceback
+import os
 
 # The basic building blocks of unit testing are test cases
 # single scenarios that must be set up and checked for correctness.
@@ -21,6 +22,7 @@ class TestTasks:
         self.test_math2()
         self.test_math3()
         self.test_mention()
+        self.test_over9000()
         
         self.test_pokemon1()
         self.test_pokemon2()
@@ -32,7 +34,7 @@ class TestTasks:
         self.test_pokemon8()
         self.test_pokemon9()
         
-        self.test_run()
+        self.test_done()
 
     def issue(self, title, body):
         self.score = self.score + 1
@@ -42,7 +44,10 @@ class TestTasks:
         
     def error(self, message):
         msg = self.body + "\n\n>" + message
-        submit_issue(self.title, msg, self.score)
+        if os.environ.get('TRAVIS_REPO_SLUG') is not None:
+            submit_issue(self.title, msg, self.score)
+        else:
+            print "ERROR"
         exit(1)
         
     def expect_contains(self, what, string, substr):
@@ -105,15 +110,8 @@ Then the bot's answer should contain \"2000\".
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
-#Given a tweet "2+3"
-#Then the bot's answer should not contain any digits except "5"
-
-#Given a tweet "Tell me about Chuck Norris"
-#Then the bot's answer should contain a Chuck Norris fact
-
-    #Given a tweet "@Bot 1+1"
-    #Then the bot's answer should contain 2
     def test_mention(self):
+        """Given a tweet '@Bot 1+1'. Then the bot's answer should contain 2"""
         self.issue('The bot should ignore the @mention', 
         """
 Given a tweet \"@Bot 1+1\",  
@@ -129,6 +127,30 @@ Then the bot's answer should contain \"2\".
             exit(1)
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
+
+    def test_over9000(self):
+        """Given a tweet '@Bot 9000+1'. Then the bot's answer should contain '9001'
+        and the string 'It's over nine thousand!'"""
+        self.issue('The bot should ignore the @mention', 
+        """
+Given a tweet \"@Bot 9000+1\",
+Then the bot's answer should contain \"9001\" and \"It's over nine thousand!\".
+        """)
+        try:
+            response = self.reply_to("@Bot 9000+1")
+            self.expect_contains("response", response, "9001")
+            self.expect_contains("response", response, "It's over nine thousand!")
+        except SystemExit:
+                exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
+
+#Given a tweet "2+3"
+#Then the bot's answer should not contain any digits except "5"
+
+#Given a tweet "Tell me about Chuck Norris"
+#Then the bot's answer should contain a Chuck Norris fact
+
 
 # Bulbasaur, Ivysaur, Venusaur, Charmander, Charmeleon, Charizard, Squirtle, Wartortle, Blastoise
 
@@ -285,6 +307,7 @@ Then the bot's answer should contain \"Blastoise\".
             'To disable these notifications, remove the `before_install` and `after_success` hooks from your `.travis.yml` file.', 
             self.score+1)
         exit(1)
-            
+
+
 if __name__ == '__main__':
     TestTasks().run()
