@@ -24,8 +24,6 @@ class TestTasks(unittest.TestCase):
 		
 	def error(self, message):
 		msg = self.body + "\n\n>" + message
-		print self.title
-		print msg
 		submit_issue(self.title, msg, self.score)
 		exit(1)
 		
@@ -83,7 +81,7 @@ Then the bot's answer should contain \"2\".
 * To split a string after the first space, you can use [`string.split(' ', 1)`](https://docs.python.org/2/library/stdtypes.html#str.split).
 		""")
 		try:
-			response = self.reply_to("1+1")
+			response = self.reply_to("@Bot 1+1")
 			self.expect_contains("response", response, "2")
 		except Exception as ex:
 			self.expect_no_error(traceback.format_exc())
