@@ -72,6 +72,24 @@ Then the bot's answer should contain \"2\".
 #Given a tweet "Tell me about Chuck Norris"
 #Then the bot's answer should contain a Chuck Norris fact
 
+	#Given a tweet "@Bot 1+1"
+	#Then the bot's answer should contain 2
+	def test_mention(self):
+		self.issue('The bot should ignore the @mention', 
+		"""
+Given a tweet \"@Bot 1+1\",  
+Then the bot's answer should contain \"2\".
+
+* To check if a string starts with '@', you can use [`string.startswith('@')`](https://docs.python.org/2/library/stdtypes.html#str.startswith).
+* To split a string after the first space, you can use [`string.split(' ', 1)`](https://docs.python.org/2/library/stdtypes.html#str.split).
+		""")
+		try:
+			response = self.reply_to("1+1")
+			self.expect_contains("response", response, "2")
+		except Exception as ex:
+			self.expect_no_error(traceback.format_exc())
+
+
 			
 if __name__ == '__main__':
     unittest.main(verbosity=2)
