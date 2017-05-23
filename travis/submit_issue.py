@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.DEBUG)
 logging.getLogger('github3').setLevel(logging.WARNING)
 log = logging.getLogger(__name__)
 
-def submit_issue(title, body):
+def submit_issue(title, body, score):
 	log.debug("Failed test: {test}".format(test=title))
 
 	# Create Github issue
@@ -40,11 +40,6 @@ def submit_issue(title, body):
 		log.debug("Attempting to create issue...")
 		resp = github.create_issue(owner, repo, title, body, owner)
 		log.debug("Created ticket: {resp}".format(resp=resp))
-
-	# Determine score
-	example_count = test_runs['summary']['example_count']
-	failure_count = test_runs['summary']['failure_count'] # should be 1
-	score = example_count - failure_count
 
 	# Post results
 	log.debug("Attempting to post score ({score})...".format(score=score))
