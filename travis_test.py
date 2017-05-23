@@ -70,8 +70,18 @@ Then the bot's answer should contain \"3\".
 		except Exception as ex:
 			self.expect_no_error(traceback.format_exc())
 
-#Given a tweet "2+3"
-#Then the bot's answer should contain "5"
+	def test_math3(self):
+		"""Given a tweet '1999+1'. Then the bot's answer should contain '2000'"""
+		self.issue('The bot should be able to do maths with large numbers', 
+		"""
+Given a tweet \"1999+1\",  
+Then the bot's answer should contain \"2000\".
+		""")
+		try:
+			response = self.reply_to("1999+1")
+			self.expect_contains("response", response, "2000")
+		except Exception as ex:
+			self.expect_no_error(traceback.format_exc())
 
 #Given a tweet "2+3"
 #Then the bot's answer should not contain any digits except "5"
