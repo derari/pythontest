@@ -5,6 +5,7 @@ from tweet_text import idle_text, reply
 from travis.submit_issue import submit_issue
 from sys import exit
 import traceback
+import os
 
 # The basic building blocks of unit testing are test cases
 # single scenarios that must be set up and checked for correctness.
@@ -24,9 +25,10 @@ class TestTasks(unittest.TestCase):
 		
 	def error(self, message):
 		msg = self.body + "\n\n>" + message
-		submit_issue(self.title, msg, self.score)
+		if os.environ.get('TRAVIS_REPO_SLUG') is not None:
+			submit_issue(self.title, msg, self.score)
 		exit(1)
-		
+
 	def expect_contains(self, what, string, substr):
 		if string is None:
 			self.error("Expected {0} containing \"{1}\",  \nbut got `None`".format(what, substr))
@@ -87,9 +89,8 @@ Then the bot's answer should contain \"2000\".
 #Given a tweet "Tell me about Chuck Norris"
 #Then the bot's answer should contain a Chuck Norris fact
 
-	#Given a tweet "@Bot 1+1"
-	#Then the bot's answer should contain 2
 	def test_mention(self):
+		"""Given a tweet '@Bot 1+1'. Then the bot's answer should contain 2"""
 		self.issue('The bot should ignore the @mention', 
 		"""
 Given a tweet \"@Bot 1+1\",  
@@ -104,7 +105,20 @@ Then the bot's answer should contain \"2\".
 		except Exception as ex:
 			self.expect_no_error(traceback.format_exc())
 
-
+	def test_over9000(self):
+		"""Given a tweet '@Bot 9000+1'. Then the bot's answer should contain '9001'
+		and the string 'It's over nine thousand!'"""
+		self.issue('The bot should ignore the @mention', 
+		"""
+Given a tweet \"@Bot 9000+1\",
+Then the bot's answer should contain \"9001\" and \"It's over nine thousand!\".
+		""")
+		try:
+			response = self.reply_to("@Bot 9000+1")
+			self.expect_contains("response", response, "9001")
+			self.expect_contains("response", response, "It's over nine thousand!")
+		except Exception as ex:
+			self.expect_no_error(traceback.format_exc())
 			
 if __name__ == '__main__':
     unittest.main(verbosity=2)
