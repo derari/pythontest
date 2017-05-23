@@ -4,6 +4,7 @@ import unittest
 from tweet_text import idle_text, reply
 from travis.submit_issue import submit_issue
 from sys import exit
+import traceback
 
 # The basic building blocks of unit testing are test cases
 # single scenarios that must be set up and checked for correctness.
@@ -32,17 +33,17 @@ class TestTasks(unittest.TestCase):
 		if substr not in string:
 			self.error("Expected {0} to contain \"{1}\",  \nbut got \"{2}\".".format(what, substr, string))
 
-	def expect_no_error(self, error):
-		self.error("Got {0}".format(error))
+	def expect_no_error(self, error, trace):
+		self.error("Got Exception:  \n{0}  \n{1}".format(error, trace))
 
 	def test_math1(self):
 		self.issue('The bot should be able to do simple math', 
 		"Given a tweet \"1+1\",  \nThen the bot's answer should contain \"2\".")
 		try:
-			response = reply("1+1")
+			response = 1 / 0 # reply("1+1")
 			self.expect_contains("response", response, "2")
 		except Exception as ex:
-			self.expect_no_error(ex)
+			self.expect_no_error(traceback.format_exc(), traceback.format_stack())
 			
 
 #Given a tweet "1+1"
