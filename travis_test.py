@@ -21,6 +21,7 @@ class TestTasks(unittest.TestCase):
         self.score = self.score + 1
         self.title = title
         self.body = body
+		print title
         
     def error(self, message):
         msg = self.body + "\n\n>" + message
