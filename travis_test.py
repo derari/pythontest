@@ -41,7 +41,6 @@ class TestTasks(unittest.TestCase):
 
     def test_math1(self):
         """Given a tweet '1+1'. Then the bot's answer should contain '2'"""
-
         self.issue('The bot should be able to do simple math', 
         """
 Given a tweet \"1+1\",  
@@ -56,12 +55,31 @@ Then the bot's answer should contain \"2\".
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
+	def test_math2(self):
+		"""Given a tweet '1+2'. Then the bot's answer should contain '3'"""
+		self.issue('The bot should be able to actually do maths, not relying on hard-coded values', 
+		"""
+Given a tweet \"1+2\",  
+Then the bot's answer should contain \"3\".
+		""")
+		try:
+			response = self.reply_to("1+2")
+			self.expect_contains("response", response, "3")
+		except Exception as ex:
+			self.expect_no_error(traceback.format_exc())
 
-#Given a tweet "What is 1+2?"
-#Then the bot's answer should contain "3"
-
-#Given a tweet "2+3"
-#Then the bot's answer should contain "5"
+	def test_math3(self):
+		"""Given a tweet '1999+1'. Then the bot's answer should contain '2000'"""
+		self.issue('The bot should be able to do maths with large numbers', 
+		"""
+Given a tweet \"1999+1\",  
+Then the bot's answer should contain \"2000\".
+		""")
+		try:
+			response = self.reply_to("1999+1")
+			self.expect_contains("response", response, "2000")
+		except Exception as ex:
+			self.expect_no_error(traceback.format_exc())
 
 #Given a tweet "2+3"
 #Then the bot's answer should not contain any digits except "5"
