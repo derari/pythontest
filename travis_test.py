@@ -317,7 +317,7 @@ Then the bot's answer should contain \"Blastoise\".
             self.expect_no_error(traceback.format_exc())
 
     def test_poke_math1(self):
-        self.issue('The bot should be able to do compute the Pokedex number',
+        self.issue('The bot should be able to compute the Pokedex number',
         """
 Given a tweet \"Which Pokemon is #1+2\",
 Then the bot's answer should contain \"Venusaur\".
