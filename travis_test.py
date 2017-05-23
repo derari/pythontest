@@ -41,11 +41,12 @@ class TestTasks(unittest.TestCase):
 
 	def test_math1(self):
 		self.issue('The bot should be able to do simple math', 
-		"""Given a tweet \"1+1\",  
-		Then the bot's answer should contain \"2\".
-		
-		* To split the term into operands, you can use [`string.split('+')`](https://docs.python.org/2/library/stdtypes.html#str.split).
-		* To parse an integer, you can use [`int(string)`](https://docs.python.org/2/library/functions.html#int).
+		"""
+Given a tweet \"1+1\",  
+Then the bot's answer should contain \"2\".
+
+* To split the term into operands, you can use [`string.split('+')`](https://docs.python.org/2/library/stdtypes.html#str.split).
+* To parse an integer, you can use [`int(string)`](https://docs.python.org/2/library/functions.html#int).
 		""")
 		try:
 			response = reply_to("1+1")
