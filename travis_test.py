@@ -17,13 +17,13 @@ class TestTasks:
         self.score = 0
         
     def run(self):
-        self.test_math1
-        self.test_math2
-        self.test_math3
-        self.test_mention
+        self.test_math1()
+        self.test_math2()
+        self.test_math3()
+        self.test_mention()
         
         
-        self.test_run
+        self.test_run()
 
     def issue(self, title, body):
         self.score = self.score + 1
