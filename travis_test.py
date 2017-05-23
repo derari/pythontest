@@ -53,6 +53,8 @@ Then the bot's answer should contain \"2\".
         try:
             response = self.reply_to("1+1")
             self.expect_contains("response", response, "2")
+        except SystemExit:
+            exit(1)
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
@@ -66,6 +68,8 @@ Then the bot's answer should contain \"3\".
         try:
             response = self.reply_to("1+2")
             self.expect_contains("response", response, "3")
+        except SystemExit:
+            exit(1)
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
@@ -79,6 +83,8 @@ Then the bot's answer should contain \"2000\".
         try:
             response = self.reply_to("1999+1")
             self.expect_contains("response", response, "2000")
+        except SystemExit:
+            exit(1)
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
@@ -102,6 +108,8 @@ Then the bot's answer should contain \"2\".
         try:
             response = self.reply_to("@Bot 1+1")
             self.expect_contains("response", response, "2")
+        except SystemExit:
+            exit(1)
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
