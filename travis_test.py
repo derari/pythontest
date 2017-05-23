@@ -25,7 +25,7 @@ class TestTasks(unittest.TestCase):
 		msg = self.body + "\n\n>" + message
 		print self.title
 		print msg
-		submit_issue(self.title, msg)
+		submit_issue(self.title, msg, self.score)
 		exit(1)
 		
 	def expect_contains(self, what, string, substr):
