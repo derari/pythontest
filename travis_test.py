@@ -30,6 +30,8 @@ class TestTasks(unittest.TestCase):
 		exit(1)
 		
 	def expect_contains(self, what, string, substr):
+		if string is None:
+			self.error("Expected {0} containing \"{1}\",  \nbut got `None`".format(what, substr))
 		if substr not in string:
 			self.error("Expected {0} to contain \"{1}\",  \nbut got \"{2}\".".format(what, substr, string))
 
