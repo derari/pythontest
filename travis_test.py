@@ -33,8 +33,8 @@ class TestTasks(unittest.TestCase):
 		if substr not in string:
 			self.error("Expected {0} to contain \"{1}\",  \nbut got \"{2}\".".format(what, substr, string))
 
-	def expect_no_error(self, error, trace):
-		self.error("Got Exception:  \n{0}  \n{1}".format(error, trace))
+	def expect_no_error(self, error):
+		self.error("Failed, got exception:\n```\n{0}```".format(error))
 
 	def test_math1(self):
 		self.issue('The bot should be able to do simple math', 
@@ -43,7 +43,7 @@ class TestTasks(unittest.TestCase):
 			response = 1 / 0 # reply("1+1")
 			self.expect_contains("response", response, "2")
 		except Exception as ex:
-			self.expect_no_error(traceback.format_exc(), traceback.format_stack())
+			self.expect_no_error(traceback.format_exc())
 			
 
 #Given a tweet "1+1"
