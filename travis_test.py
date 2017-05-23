@@ -45,5 +45,21 @@ class TestTasks(unittest.TestCase):
 			self.expect_no_error(ex)
 			
 
+#Given a tweet "1+1"
+#Then the bot's answer should contain "2"
+
+#Given a tweet "What is 1+2?"
+#Then the bot's answer should contain "3"
+
+#Given a tweet "2+3"
+#Then the bot's answer should contain "5"
+
+#Given a tweet "2+3"
+#Then the bot's answer should not contain any digits except "5"
+
+#Given a tweet "Tell me about Chuck Norris"
+#Then the bot's answer should contain a Chuck Norris fact
+
+			
 if __name__ == '__main__':
     unittest.main(verbosity=2)
