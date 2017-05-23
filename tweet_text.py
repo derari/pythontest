@@ -12,7 +12,7 @@ def reply(tweet):
     if "1+1" in message:
         return "@" + user + " 2"
     if "1+2" in message:
-        return "@" + user + " 2"
+        return "@" + user + " 3"
     if "2+3" in message:
         return "@" + user + " 456"
     if "hi" in message.lower():
