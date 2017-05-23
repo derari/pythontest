@@ -22,9 +22,10 @@ class TestTasks:
         self.test_math2()
         self.test_math3()
         self.test_mention()
+        self.test_over9000()
         
         
-        self.test_run()
+        self.test_done()
 
     def issue(self, title, body):
         self.score = self.score + 1
@@ -34,7 +35,10 @@ class TestTasks:
         
     def error(self, message):
         msg = self.body + "\n\n>" + message
-        submit_issue(self.title, msg, self.score)
+        if os.environ.get('TRAVIS_REPO_SLUG') is not None:
+            submit_issue(self.title, msg, self.score)
+        else:
+            print "ERROR"
         exit(1)
         
     def expect_contains(self, what, string, substr):
@@ -97,12 +101,6 @@ Then the bot's answer should contain \"2000\".
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
-#Given a tweet "2+3"
-#Then the bot's answer should not contain any digits except "5"
-
-#Given a tweet "Tell me about Chuck Norris"
-#Then the bot's answer should contain a Chuck Norris fact
-
 	def test_mention(self):
 		"""Given a tweet '@Bot 1+1'. Then the bot's answer should contain 2"""
 		self.issue('The bot should ignore the @mention', 
@@ -137,6 +135,12 @@ Then the bot's answer should contain \"9001\" and \"It's over nine thousand!\".
 				exit(1)
 		except Exception as ex:
 			self.expect_no_error(traceback.format_exc())
+
+#Given a tweet "2+3"
+#Then the bot's answer should not contain any digits except "5"
+
+#Given a tweet "Tell me about Chuck Norris"
+#Then the bot's answer should contain a Chuck Norris fact
 
 
 
