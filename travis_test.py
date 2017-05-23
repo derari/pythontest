@@ -33,6 +33,7 @@ class TestTasks:
         self.test_pokemon7()
         self.test_pokemon8()
         self.test_pokemon9()
+        self.test_poke_math1()
         
         self.test_done()
 
@@ -298,8 +299,23 @@ Then the bot's answer should contain \"Blastoise\".
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
+    def test_poke_math1(self):
+        self.issue('The bot should be able to do compute the Pokedex number', 
+        """
+Given a tweet \"Which Pokemon is #1+2\",  
+Then the bot's answer should contain \"Venusaur\".
 
-
+* It's enough if the bot knows Pokemon #1 to #9
+        """)
+        try:
+            response = self.reply_to("Which Pokemon is #1+2")
+            self.expect_contains("response", response, "Venusaur")
+        except SystemExit:
+            exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
+            
+            
             
     # insert all tests above this line ------------
     def test_done(self):
