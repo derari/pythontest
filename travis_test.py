@@ -11,11 +11,19 @@ import traceback
 # In unittest, test cases are represented by instances of unittest's TestCase class.
 # To make your own test cases you must write subclasses of TestCase.
 
-class TestTasks(unittest.TestCase):
+class TestTasks:
 
-    def __init__(self, *args, **kwargs):
-        super(TestTasks, self).__init__(*args, **kwargs)
+    def __init__(self):
         self.score = 0
+        
+    def run(self):
+        self.test_math1
+        self.test_math2
+        self.test_math3
+        self.test_mention
+        
+        
+        self.test_run
 
     def issue(self, title, body):
         self.score = self.score + 1
@@ -124,10 +132,10 @@ Then the bot's answer should contain \"2\".
             
     # insert all tests above this line ------------
     def test_done(self):
-        submit_issue('Concratulations, you have completed the exercise!', 
+        submit_issue('Congratulations, you have completed the exercise!', 
             'To disable these notifications, remove the `before_install` and `after_success` hooks from your `.travis.yml` file.', 
             self.score+1)
         exit(1)
             
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    TestTasks().run()
