@@ -23,6 +23,7 @@ class TestTasks:
         self.test_math3()
         self.test_mention()
         self.test_over9000()
+        self.test_oh_rly()
         
         
         self.test_done()
@@ -122,7 +123,7 @@ Then the bot's answer should contain \"2\".
     def test_over9000(self):
         """Given a tweet '@Bot 9000+1'. Then the bot's answer should contain '9001'
         and the string 'It's over nine thousand!'"""
-        self.issue('The bot should ignore the @mention', 
+        self.issue('The bot should mention if numbers are large', 
         """
 Given a tweet \"@Bot 9000+1\",
 Then the bot's answer should contain \"9001\" and \"It's over nine thousand!\".
@@ -131,6 +132,21 @@ Then the bot's answer should contain \"9001\" and \"It's over nine thousand!\".
             response = self.reply_to("@Bot 9000+1")
             self.expect_contains("response", response, "9001")
             self.expect_contains("response", response, "It's over nine thousand!")
+        except SystemExit:
+                exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
+
+    def test_oh_rly(self):
+        """Given a tweet '@Bot oh rly?'. Then the bot's answer should contain 'YA RLY!'"""
+        self.issue('The bot should be confident', 
+        """
+Given a tweet \"@Bot oh rly?\",
+Then the bot's answer should contain \"YA RLY!\"".
+        """)
+        try:
+            response = self.reply_to("@Bot oh rly?")
+            self.expect_contains("response", response, "YA RLY!")
         except SystemExit:
                 exit(1)
         except Exception as ex:
