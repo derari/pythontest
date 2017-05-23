@@ -49,7 +49,7 @@ Then the bot's answer should contain \"2\".
 * To convert a  string to an integer, you can use [`int(string)`](https://docs.python.org/2/library/functions.html#int).
 		""")
 		try:
-			response = reply_to("1+1")
+			response = self.reply_to("1+1")
 			self.expect_contains("response", response, "2")
 		except Exception as ex:
 			self.expect_no_error(traceback.format_exc())
