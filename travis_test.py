@@ -22,6 +22,15 @@ class TestTasks:
         self.test_math3()
         self.test_mention()
         
+        self.test_pokemon1()
+        self.test_pokemon2()
+        self.test_pokemon3()
+        self.test_pokemon4()
+        self.test_pokemon5()
+        self.test_pokemon6()
+        self.test_pokemon7()
+        self.test_pokemon8()
+        self.test_pokemon9()
         
         self.test_run()
 
@@ -121,11 +130,151 @@ Then the bot's answer should contain \"2\".
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
+# Bulbasaur, Ivysaur, Venusaur, Charmander, Charmeleon, Charizard, Squirtle, Wartortle, Blastoise
 
+    def test_pokemon1(self):
+        self.issue('The bot should know some Pokemon', 
+        """
+Given a tweet \"Which Pokemon is #1\",  
+Then the bot's answer should contain \"Bulbasaur\".
 
+* It's enough if the bot knows Pokemon #1 to #9
+        """)
+        try:
+            response = self.reply_to("Which Pokemon is #1")
+            self.expect_contains("response", response, "Bulbasaur")
+        except SystemExit:
+            exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
 
+    def test_pokemon2(self):
+        self.issue('The bot should know Ivysaur', 
+        """
+Given a tweet \"Which Pokemon is #2\",  
+Then the bot's answer should contain \"Ivysaur\".
 
+* It's enough if the bot knows Pokemon #1 to #9
+        """)
+        try:
+            response = self.reply_to("Which Pokemon is #2")
+            self.expect_contains("response", response, "Ivysaur")
+        except SystemExit:
+            exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
+            
+    def test_pokemon3(self):
+        self.issue('The bot should know Venusaur', 
+        """
+Given a tweet \"Which Pokemon is #3\",  
+Then the bot's answer should contain \"Venusaur\".
 
+* It's enough if the bot knows Pokemon #1 to #9
+        """)
+        try:
+            response = self.reply_to("Which Pokemon is #3")
+            self.expect_contains("response", response, "Venusaur")
+        except SystemExit:
+            exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
+            
+    def test_pokemon4(self):
+        self.issue('The bot should know Charmander', 
+        """
+Given a tweet \"Which Pokemon is #4\",  
+Then the bot's answer should contain \"Charmander\".
+
+* It's enough if the bot knows Pokemon #1 to #9
+        """)
+        try:
+            response = self.reply_to("Which Pokemon is #4")
+            self.expect_contains("response", response, "Charmander")
+        except SystemExit:
+            exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
+            
+    def test_pokemon5(self):
+        self.issue('The bot should know Charmeleon', 
+        """
+Given a tweet \"Which Pokemon is #5\",  
+Then the bot's answer should contain \"Charmeleon\".
+
+* It's enough if the bot knows Pokemon #1 to #9
+        """)
+        try:
+            response = self.reply_to("Which Pokemon is #5")
+            self.expect_contains("response", response, "Charmeleon")
+        except SystemExit:
+            exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
+            
+    def test_pokemon6(self):
+        self.issue('The bot should know Charizard', 
+        """
+Given a tweet \"Which Pokemon is #6\",  
+Then the bot's answer should contain \"Charizard\".
+
+* It's enough if the bot knows Pokemon #1 to #9
+        """)
+        try:
+            response = self.reply_to("Which Pokemon is #6")
+            self.expect_contains("response", response, "Charizard")
+        except SystemExit:
+            exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
+            
+    def test_pokemon7(self):
+        self.issue('The bot should know Squirtle', 
+        """
+Given a tweet \"Which Pokemon is #7\",  
+Then the bot's answer should contain \"Squirtle\".
+
+* It's enough if the bot knows Pokemon #1 to #9
+        """)
+        try:
+            response = self.reply_to("Which Pokemon is #7")
+            self.expect_contains("response", response, "Squirtle")
+        except SystemExit:
+            exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
+            
+    def test_pokemon8(self):
+        self.issue('The bot should know Wartortle', 
+        """
+Given a tweet \"Which Pokemon is #8\",  
+Then the bot's answer should contain \"Wartortle\".
+
+* It's enough if the bot knows Pokemon #1 to #9
+        """)
+        try:
+            response = self.reply_to("Which Pokemon is #8")
+            self.expect_contains("response", response, "Wartortle")
+        except SystemExit:
+            exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
+            
+    def test_pokemon9(self):
+        self.issue('The bot should know Blastoise', 
+        """
+Given a tweet \"Which Pokemon is #9\",  
+Then the bot's answer should contain \"Blastoise\".
+
+* It's enough if the bot knows Pokemon #1 to #9
+        """)
+        try:
+            response = self.reply_to("Which Pokemon is #9")
+            self.expect_contains("response", response, "Blastoise")
+        except SystemExit:
+            exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
 
 
 
