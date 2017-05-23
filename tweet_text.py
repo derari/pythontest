@@ -19,6 +19,14 @@ def reply(tweet):
         return "@" + user + " 2000"
     if "9000+1" in message:
         return "@" + user + " 9001 It's over nine thousand!"
+	if "oh rly" in message:
+		return "@" + user + " YA RLY!"
+        
+    pokemons = ["Bulbasaur", "Ivysaur", "Venusaur"]
+    if "Pokemon" in message:
+        number = message.split('#')[1]
+        return "@" + user + " " + pokemons[int(number)-1]
+        
     if "hi" in message.lower():
         berlin_time = datetime.now(timezone('Europe/Berlin'))
         date = berlin_time.strftime("It is %H:%M:%S on a %A (%d-%m-%Y).")

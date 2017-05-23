@@ -143,7 +143,7 @@ Then the bot's answer should contain \"9001\" and \"It's over nine thousand!\".
             self.expect_contains("response", response, "9001")
             self.expect_contains("response", response, "It's over nine thousand!")
         except SystemExit:
-                exit(1)
+            exit(1)
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
@@ -158,7 +158,7 @@ Then the bot's answer should contain \"YA RLY!\"".
             response = self.reply_to("@Bot oh rly?")
             self.expect_contains("response", response, "YA RLY!")
         except SystemExit:
-                exit(1)
+            exit(1)
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
@@ -320,8 +320,6 @@ Then the bot's answer should contain \"Blastoise\".
         """
 Given a tweet \"Which Pokemon is #1+2\",  
 Then the bot's answer should contain \"Venusaur\".
-
-* It's enough if the bot knows Pokemon #1 to #9
         """)
         try:
             response = self.reply_to("Which Pokemon is #1+2")
