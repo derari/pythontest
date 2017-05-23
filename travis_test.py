@@ -101,10 +101,10 @@ Then the bot's answer should contain \"2000\".
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
-	def test_mention(self):
-		"""Given a tweet '@Bot 1+1'. Then the bot's answer should contain 2"""
-		self.issue('The bot should ignore the @mention', 
-		"""
+    def test_mention(self):
+        """Given a tweet '@Bot 1+1'. Then the bot's answer should contain 2"""
+        self.issue('The bot should ignore the @mention', 
+        """
 Given a tweet \"@Bot 1+1\",  
 Then the bot's answer should contain \"2\".
 
@@ -119,22 +119,22 @@ Then the bot's answer should contain \"2\".
         except Exception as ex:
             self.expect_no_error(traceback.format_exc())
 
-	def test_over9000(self):
-		"""Given a tweet '@Bot 9000+1'. Then the bot's answer should contain '9001'
-		and the string 'It's over nine thousand!'"""
-		self.issue('The bot should ignore the @mention', 
-		"""
+    def test_over9000(self):
+        """Given a tweet '@Bot 9000+1'. Then the bot's answer should contain '9001'
+        and the string 'It's over nine thousand!'"""
+        self.issue('The bot should ignore the @mention', 
+        """
 Given a tweet \"@Bot 9000+1\",
 Then the bot's answer should contain \"9001\" and \"It's over nine thousand!\".
-		""")
-		try:
-			response = self.reply_to("@Bot 9000+1")
-			self.expect_contains("response", response, "9001")
-			self.expect_contains("response", response, "It's over nine thousand!")
-		except SystemExit:
-				exit(1)
-		except Exception as ex:
-			self.expect_no_error(traceback.format_exc())
+        """)
+        try:
+            response = self.reply_to("@Bot 9000+1")
+            self.expect_contains("response", response, "9001")
+            self.expect_contains("response", response, "It's over nine thousand!")
+        except SystemExit:
+                exit(1)
+        except Exception as ex:
+            self.expect_no_error(traceback.format_exc())
 
 #Given a tweet "2+3"
 #Then the bot's answer should not contain any digits except "5"
