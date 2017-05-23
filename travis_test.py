@@ -70,9 +70,6 @@ Then the bot's answer should contain \"3\".
 		except Exception as ex:
 			self.expect_no_error(traceback.format_exc())
 
-#Given a tweet "What is 1+2?"
-#Then the bot's answer should contain "3"
-
 #Given a tweet "2+3"
 #Then the bot's answer should contain "5"
 
