@@ -36,7 +36,7 @@ class TestTasks(unittest.TestCase):
 	def expect_no_error(self, error):
 		self.error("Failed, got exception:\n```\n{0}```".format(error))
 		
-	def reply_to(tweet):
+	def reply_to(self, tweet):
 		return reply({'text': tweet, 'user': {'screen_name': 'TestUser'}})
 
 	def test_math1(self):
