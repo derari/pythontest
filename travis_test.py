@@ -35,12 +35,20 @@ class TestTasks(unittest.TestCase):
 
 	def expect_no_error(self, error):
 		self.error("Failed, got exception:\n```\n{0}```".format(error))
+		
+	def reply_to(tweet)
+		return reply({'text': tweet, 'user': {'screen_name': 'TestUser'}})
 
 	def test_math1(self):
 		self.issue('The bot should be able to do simple math', 
-		"Given a tweet \"1+1\",  \nThen the bot's answer should contain \"2\".")
+		"""Given a tweet \"1+1\",  
+		Then the bot's answer should contain \"2\".
+		
+		* To split the term into operands, you can use [`string.split('+')`](https://docs.python.org/2/library/stdtypes.html#str.split).
+		* To parse an integer, you can use [`int(string)`](https://docs.python.org/2/library/functions.html#int).
+		""")
 		try:
-			response = 1 / 0 # reply("1+1")
+			response = reply_to("1+1")
 			self.expect_contains("response", response, "2")
 		except Exception as ex:
 			self.expect_no_error(traceback.format_exc())
