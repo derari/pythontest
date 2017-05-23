@@ -21,7 +21,7 @@ def reply(tweet):
         return "@" + user + " 9001 It's over nine thousand!"
     if "rly" in message:
         return "@" + user + " YA RLY!"
-    pokemons = ["Bulbasaur", "Ivysaur", "Venusaur", "", "", "", "", "", ""]
+    pokemons = ["Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise"]
     if "Pokemon" in message:
         number = message.split('#')[1]
         return "@" + user + " " + pokemons[int(number)-1]
